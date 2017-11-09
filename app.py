@@ -33,6 +33,7 @@ def slack_event():
       return req.get('challenge')
     event = req.get('event')
     if not event.get('bot_id') and 'text' in event:
+
       attachments = [
         {
           "text": "Choose one of the following options",
@@ -74,6 +75,7 @@ def slack_event():
           ]
         }
       ]
+
       slack_client.api_call(
         'chat.postMessage',
         channel=event.get('channel'),
