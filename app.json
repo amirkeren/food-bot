@@ -1,0 +1,12 @@
+{
+  "name": "Taboola Food Bot",
+  "description": "Slack Food Bot for Taboola",
+  "keywords": [
+    "flask",
+    "python",
+    "taboola"
+  ],
+  "repository": "https://github.com/amirkeren/food-bot",
+  "addons": [
+  ]
+}

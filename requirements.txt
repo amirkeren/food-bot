@@ -1,0 +1,5 @@
+Flask==0.12.2
+gunicorn==19.6.0
+slackclient==1.0.9
+pandas==0.21.0
+datetime==4.0
