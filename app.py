@@ -37,14 +37,16 @@ print('Data ready')
 
 @app.route('/slack_event', methods=['POST'])
 def slack_event():
-  print('Get buttons text')
+  print('Get return message')
   req = json.loads(request.data)
+  print('Parse request')
   if req.get('token') == VERIFICATION_TOKEN:
+    print('Token verified')
     if 'challenge' in req:
       return req.get('challenge')
     event = req.get('event')
     if not event.get('bot_id') and 'text' in event:
-
+      print('Generate buttons')
       attachments = [
         {
           "text": "Choose one of the following options",
@@ -86,7 +88,7 @@ def slack_event():
           ]
         }
       ]
-
+      print('Update message channel')
       slack_client.api_call(
         'chat.postMessage',
         channel=event.get('channel'),
