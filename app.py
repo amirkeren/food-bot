@@ -21,12 +21,23 @@ def get_messages(slack_client, count=1000):
 
 slack_client = SlackClient(ACCESS_TOKEN)
 
+print 'Getting messages from food channel'
+
 messages = get_messages(slack_client=slack_client)
+
+print 'Creating dataframe'
+
 dataframe = create_dataframe(messages=messages)
+
+print 'Processing dataframe'
+
 grouped_dataframe = process_dataframe(dataframe=dataframe)
+
+print 'Data ready'
 
 @app.route('/slack_event', methods=['POST'])
 def slack_event():
+  print 'Get buttons text'
   req = json.loads(request.data)
   if req.get('token') == VERIFICATION_TOKEN:
     if 'challenge' in req:
@@ -116,5 +127,6 @@ def get_results_from_selection(selection):
   return ''
 
 if __name__ == '__main__':
+  print 'Starting app'
   port = int(os.environ.get('PORT', 5000))
   app.run(host='0.0.0.0', port=port, debug=True)
