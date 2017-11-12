@@ -88,13 +88,14 @@ def slack_event():
           ]
         }
       ]
-      print('Update message channel')
+      print('Update message channel ' + event.get('channel'))
       slack_client.api_call(
         'chat.postMessage',
         channel=event.get('channel'),
         text='',
         attachments=json.dumps(attachments)
       )
+      print('Channel updated')
     return ''
 
 @app.route('/slack_action', methods=['POST'])
