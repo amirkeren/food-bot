@@ -45,6 +45,7 @@ def slack_event():
     if 'challenge' in req:
       return req.get('challenge')
     event = req.get('event')
+    print('Event is - ' + json.dumps(event))
     if not event.get('bot_id') and 'text' in event:
       print('Generate buttons')
       attachments = [
@@ -92,7 +93,7 @@ def slack_event():
       slack_client.api_call(
         'chat.postMessage',
         channel=event.get('channel'),
-        text='',
+        text='test',
         attachments=json.dumps(attachments)
       )
       print('Channel updated')
