@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from slackclient import SlackClient
 from logic import create_dataframe, process_dataframe, get_restaurants_by_average_time, get_n_most_popular_restaurants, \
   get_n_earliest_restaurants, get_n_latest_restaurants, get_average_time_for_restaurant
+from cachetools import TTLCache
 
 import os
 import json
@@ -20,34 +21,21 @@ def get_messages(slack_client, count=1000):
   return history['messages']
 
 slack_client = SlackClient(ACCESS_TOKEN)
-
-print('Getting messages from food channel')
-
-messages = get_messages(slack_client=slack_client)
-
-print('Creating dataframe')
-
-dataframe = create_dataframe(messages=messages)
-
-print('Processing dataframe')
-
-grouped_dataframe = process_dataframe(dataframe=dataframe)
-
-print('Data ready')
+cache = TTLCache(maxsize=1, ttl=60*60*24)
 
 @app.route('/slack_event', methods=['POST'])
 def slack_event():
-  print('Get return message')
+  print('slack_event endpoint triggered')
   req = json.loads(request.data)
-  print('Parse request')
   if req.get('token') == VERIFICATION_TOKEN:
     print('Token verified')
     if 'challenge' in req:
+      print('Challenge')
       return req.get('challenge')
     event = req.get('event')
     print('Event is - ' + json.dumps(event))
     if not event.get('bot_id') and 'text' in event:
-      print('Generate buttons')
+      print('Generate interactive message')
       attachments = [
         {
           "text": "Choose one of the following options",
@@ -89,33 +77,60 @@ def slack_event():
           ]
         }
       ]
-      print('Update message channel ' + event.get('channel'))
+      print('Posting message to channel ' + event.get('channel'))
       slack_client.api_call(
         'chat.postMessage',
         channel=event.get('channel'),
         text='test',
         attachments=json.dumps(attachments)
       )
-      print('Channel updated')
+      print('Message posted')
     return ''
 
 @app.route('/slack_action', methods=['POST'])
 def slack_action():
+  print('slack_action endpoint triggered')
   form_json = json.loads(request.form['payload'])
   if form_json.get('token') == VERIFICATION_TOKEN:
+    print('Token verified')
     selection = form_json.get('actions')[0].get('value')
+    print('Selection is - ' + selection)
+    channel = form_json.get('channel').get('id')
+    print('Updating channel ' + channel)
     slack_client.api_call(
       'chat.update',
-      channel=form_json.get('channel').get('id'),
+      channel=channel,
       ts=form_json.get('message_ts'),
       text=get_results_from_selection(selection=selection),
       attachments=[]
     )
+    print('Channel updated')
   return ''
 
 @app.route('/debug', methods=['GET'])
 def debug():
-  return str(grouped_dataframe)
+  print('debug endpoint triggered')
+  return 'debug'
+
+def read_from_channel():
+  messages = get_messages(slack_client=slack_client)
+  print('Creating dataframe')
+  dataframe = create_dataframe(messages=messages)
+  print('Processing dataframe')
+  grouped_dataframe = process_dataframe(dataframe=dataframe)
+  print('Data ready')
+  return grouped_dataframe
+
+def get_dataframe():
+  messages = None
+  try:
+    messages = cache['messages']
+    print 'messages in cache'
+  except KeyError:
+    print 'messages not in cache'
+    messages = read_from_channel()
+    cache['messages'] = messages
+  return messages
 
 def get_results_from_selection(selection):
   if selection == 'popular':
