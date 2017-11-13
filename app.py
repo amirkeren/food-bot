@@ -125,9 +125,9 @@ def get_dataframe():
   messages = None
   try:
     messages = cache['messages']
-    print 'messages in cache'
+    print('messages in cache')
   except KeyError:
-    print 'messages not in cache'
+    print('messages not in cache')
     messages = read_from_channel()
     cache['messages'] = messages
   return messages
