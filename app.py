@@ -15,7 +15,7 @@ VERIFICATION_TOKEN = os.environ.get('VERIFICATION_TOKEN')
 ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN')
 
 def get_messages(slack_client, count, oldest):
-  print('Fetching a max of ' + count + ' messages since ' + oldest)
+  print('Fetching a max of ' + str(count) + ' messages since ' + str(oldest))
   history = slack_client.api_call(
     'channels.history',
     channel='C37ELNXTK',
