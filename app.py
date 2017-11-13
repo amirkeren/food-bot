@@ -122,7 +122,7 @@ def debug():
 def read_from_channel(count=1000, days_back=30):
   now = datetime.now()
   then = now - timedelta(days=days_back)
-  messages = get_messages(slack_client=slack_client, count=count, oldest=then.total_seconds())
+  messages = get_messages(slack_client=slack_client, count=count, oldest=then.strftime('%s'))
   print('Creating dataframe')
   dataframe = create_dataframe(messages=messages)
   print('Processing dataframe')
