@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from slackclient import SlackClient
 from cachetools import TTLCache
-from datetime import datetime as dt
+from datetime import datetime, timedelta
 
 from logic import create_dataframe, process_dataframe, get_restaurants_by_average_time, get_n_most_popular_restaurants, \
   get_n_earliest_restaurants, get_n_latest_restaurants, get_average_time_for_restaurant
@@ -120,8 +120,8 @@ def debug():
   return 'debug'
 
 def read_from_channel(count=1000, days_back=30):
-  now = dt.now()
-  then = now - dt.timedelta(days=days_back)
+  now = datetime.now()
+  then = now - timedelta(days=days_back)
   messages = get_messages(slack_client=slack_client, count=count, oldest=then.total_seconds())
   print('Creating dataframe')
   dataframe = create_dataframe(messages=messages)
