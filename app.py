@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
 from slackclient import SlackClient
+from cachetools import TTLCache
+from datetime import datetime as dt
+
 from logic import create_dataframe, process_dataframe, get_restaurants_by_average_time, get_n_most_popular_restaurants, \
   get_n_earliest_restaurants, get_n_latest_restaurants, get_average_time_for_restaurant
-from cachetools import TTLCache
 
 import os
 import json
@@ -12,12 +14,16 @@ app = Flask(__name__)
 VERIFICATION_TOKEN = os.environ.get('VERIFICATION_TOKEN')
 ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN')
 
-def get_messages(slack_client, count=1000):
+def get_messages(slack_client, count, oldest):
   history = slack_client.api_call(
     'channels.history',
     channel='C37ELNXTK',
+    oldest=oldest,
     count=count
   )
+  if 'messages' not in history:
+    print('Failed to read messages from channel')
+    return []
   return history['messages']
 
 slack_client = SlackClient(ACCESS_TOKEN)
@@ -112,8 +118,10 @@ def debug():
   print('debug endpoint triggered')
   return 'debug'
 
-def read_from_channel():
-  messages = get_messages(slack_client=slack_client)
+def read_from_channel(count=1000, days_back=30):
+  now = dt.datetime.now()
+  then = now - dt.timedelta(days=days_back)
+  messages = get_messages(slack_client=slack_client, count=count, oldest=then.total_seconds())
   print('Creating dataframe')
   dataframe = create_dataframe(messages=messages)
   print('Processing dataframe')
@@ -125,10 +133,11 @@ def get_dataframe():
   messages = None
   try:
     messages = cache['messages']
-    print('messages in cache')
+    print(len(messages) + ' messages in cache')
   except KeyError:
-    print('messages not in cache')
+    print('Messages not in cache')
     messages = read_from_channel()
+    print('Got ' + len(messages) + ' from channel')
     cache['messages'] = messages
   return messages
 
