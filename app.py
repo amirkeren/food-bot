@@ -138,7 +138,6 @@ def get_dataframe():
   except KeyError:
     print('Messages not in cache')
     messages = read_from_channel()
-    print('Got ' + json.dumps(messages) + ' from channel')
     cache['messages'] = messages
   return messages
 
