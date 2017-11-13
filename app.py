@@ -133,6 +133,7 @@ def get_dataframe():
   return messages
 
 def get_results_from_selection(selection):
+  grouped_dataframe = get_dataframe()
   if selection == 'popular':
     return get_n_most_popular_restaurants(dataframe=grouped_dataframe)
   elif selection == 'earliest':
