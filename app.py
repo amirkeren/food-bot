@@ -81,7 +81,7 @@ def slack_event():
       slack_client.api_call(
         'chat.postMessage',
         channel=event.get('channel'),
-        text='test',
+        text='',
         attachments=json.dumps(attachments)
       )
       print('Message posted')
