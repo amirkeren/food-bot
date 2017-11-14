@@ -99,7 +99,7 @@ def slack_event():
 
 @app.route('/slack_options', methods=['POST'])
 def slack_options():
-    json = {
+    return {
       "options": [
         {
             "text": "Unexpected sentience",
@@ -115,7 +115,6 @@ def slack_options():
         }
       ]
     }
-    return json.dumps(json)
 
 @app.route('/slack_action', methods=['POST'])
 def slack_action():
