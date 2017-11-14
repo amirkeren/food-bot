@@ -73,7 +73,8 @@ def slack_event():
               "name": "foodbot",
               "text": "Select a restaurant to get the average delivery time",
               "type": "select",
-              "data_source": "external"
+              "data_source": "external",
+              "min_query_length": 2
             }
           ]
         }
@@ -94,6 +95,7 @@ def slack_options():
     restaurants_json = []
     for restaurant in restaurants:
       restaurants_json.append({ 'text': restaurant, 'value': restaurant })
+    print(restaurants_json)
     return jsonify({ 'options': restaurants_json })
 
 @app.route('/slack_action', methods=['POST'])
@@ -118,11 +120,6 @@ def slack_action():
     )
     print('Channel updated')
   return ''
-
-@app.route('/debug', methods=['GET'])
-def debug():
-  print('debug endpoint triggered')
-  return 'debug'
 
 def read_from_channel(count=1000, days_back=90):
   now = datetime.now()
