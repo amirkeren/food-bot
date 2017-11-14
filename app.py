@@ -54,6 +54,12 @@ def slack_event():
             {
               "name": "foodbot",
               "text": "Arrives Latest",
+              "type": "button",
+              "value": "latest"
+            },
+            {
+              "name": "foodbot",
+              "text": "Select the time you want for your delivery",
               "type": "select",
               "options": [
                 {
@@ -70,24 +76,6 @@ def slack_event():
                 }
               ]
             },
-            # {
-            #   "name": "foodbot",
-            #   "text": "Arrives Latest",
-            #   "type": "button",
-            #   "value": "latest"
-            # },
-            {
-              "name": "foodbot",
-              "text": "Before 12:30",
-              "type": "button",
-              "value": "first_half"
-            },
-            # {
-            #   "name": "foodbot",
-            #   "text": "After 12:30",
-            #   "type": "button",
-            #   "value": "second_half"
-            # },
             {
               "name": "foodbot",
               "text": "Select a restaurant to get the average delivery time",
