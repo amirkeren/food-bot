@@ -88,6 +88,7 @@ def slack_event():
       slack_client.api_call(
         'chat.postMessage',
         channel=event.get('channel'),
+        as_user='false',
         text='',
         attachments=json.dumps(attachments)
       )
@@ -107,6 +108,7 @@ def slack_action():
     slack_client.api_call(
       'chat.update',
       channel=channel,
+      as_user='false',
       ts=form_json.get('message_ts'),
       text=get_results_from_selection(selection=selection),
       attachments=[]
@@ -118,6 +120,12 @@ def slack_action():
 def debug():
   print('debug endpoint triggered')
   return 'debug'
+
+@app.route('/oauth', methods=['GET'])
+def debug():
+  print('oauth endpoint triggered')
+  print('Code is - ' + request.args.get('code'))
+  return 'oauth'
 
 def read_from_channel(count=1000, days_back=90):
   now = datetime.now()
