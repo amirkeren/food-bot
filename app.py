@@ -78,10 +78,11 @@ def slack_event():
               "value": "first_half"
             },
             {
-              "name": "foodbot",
-              "text": "After 12:30",
-              "type": "button",
-              "value": "second_half"
+              "name": "bugs_list",
+              "text": "Which random bug do you want to resolve?",
+              "type": "select",
+              "data_source": "external",
+              "min_query_length": 3,
             }
           ]
         }
@@ -95,6 +96,25 @@ def slack_event():
       )
       print('Message posted')
     return ''
+
+@app.route('/slack_options', methods=['POST'])
+def slack_action():
+  return {
+    "options": [
+        {
+            "text": "Unexpected sentience",
+            "value": "AI-2323"
+        },
+        {
+            "text": "Bot biased toward other bots",
+            "value": "SUPPORT-42"
+        },
+        {
+            "text": "Bot broke my toaster",
+            "value": "IOT-75"
+        }
+    ]
+  }
 
 @app.route('/slack_action', methods=['POST'])
 def slack_action():
