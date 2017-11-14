@@ -96,8 +96,7 @@ def slack_options():
     restaurants_json = []
     for restaurant in restaurants:
       if value in restaurant:
-        print('FOUND! ' + restaurant)
-      restaurants_json.append({ 'text': restaurant, 'value': restaurant })
+        restaurants_json.append({ 'text': restaurant, 'value': restaurant })
     return jsonify({ 'options': restaurants_json })
 
 @app.route('/slack_action', methods=['POST'])
