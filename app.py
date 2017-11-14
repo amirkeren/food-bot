@@ -91,6 +91,7 @@ def slack_event():
 
 @app.route('/slack_options', methods=['POST'])
 def slack_options():
+    print(request)
     restaurants = get_dataframe()['restaurant'].values
     restaurants_json = []
     for restaurant in restaurants:
