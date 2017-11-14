@@ -99,22 +99,22 @@ def slack_event():
 
 @app.route('/slack_options', methods=['POST'])
 def slack_options():
-  return {
-    "options": [
-        {
-            "text": "Unexpected sentience",
-            "value": "AI-2323"
-        },
-        {
-            "text": "Bot biased toward other bots",
-            "value": "SUPPORT-42"
-        },
-        {
-            "text": "Bot broke my toaster",
-            "value": "IOT-75"
-        }
+    json_data = json.dumps({})
+    json_data["options"] = [
+      {
+          "text": "Unexpected sentience",
+          "value": "AI-2323"
+      },
+      {
+          "text": "Bot biased toward other bots",
+          "value": "SUPPORT-42"
+      },
+      {
+          "text": "Bot broke my toaster",
+          "value": "IOT-75"
+      }
     ]
-  }
+    return json.dumps(json_data)
 
 @app.route('/slack_action', methods=['POST'])
 def slack_action():
