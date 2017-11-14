@@ -54,9 +54,28 @@ def slack_event():
             {
               "name": "foodbot",
               "text": "Arrives Latest",
-              "type": "button",
-              "value": "latest"
+              "type": "select",
+              "options": [
+                {
+                  "text": "12:00 - 12:30",
+                  "value": "12:00 - 12:30"
+                },
+                {
+                  "text": "12:30 - 13:00",
+                  "value": "12:30 - 13:00"
+                },
+                {
+                  "text": "After 13:00",
+                  "value": "After 13:00"
+                }
+              ]
             },
+            # {
+            #   "name": "foodbot",
+            #   "text": "Arrives Latest",
+            #   "type": "button",
+            #   "value": "latest"
+            # },
             {
               "name": "foodbot",
               "text": "Before 12:30",
