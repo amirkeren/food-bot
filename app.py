@@ -64,11 +64,17 @@ def slack_event():
               "value": "first_half"
             },
             {
-              "name": "restaurants_list",
+              "name": "foodbot",
+              "text": "After 12:30",
+              "type": "button",
+              "value": "second_half"
+            },
+            {
+              "name": "foodbot",
               "text": "Select a restaurant to get the average delivery time",
               "type": "select",
               "data_source": "external",
-              "min_query_length": 2,
+              "min_query_length": 2
             }
           ]
         }
@@ -97,7 +103,10 @@ def slack_action():
   form_json = json.loads(request.form['payload'])
   if form_json.get('token') == VERIFICATION_TOKEN:
     print('Token verified')
-    selection = form_json.get('actions')[0].get('value')
+    selection = form_json.get('actions')[0]
+    if 'selected_options' in selection:
+      selection = selection.get('selected_options')[0]
+    selection = selection.get('value')
     print('Selection is - ' + selection)
     channel = form_json.get('channel').get('id')
     print('Updating channel ' + channel)
