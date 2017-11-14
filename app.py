@@ -16,7 +16,7 @@ OAUTH_ACCESS_TOKEN = os.environ.get('OAUTH_ACCESS_TOKEN')
 VERIFICATION_TOKEN = os.environ.get('VERIFICATION_TOKEN')
 
 slack_client = SlackClient(BOT_ACCESS_TOKEN)
-cache = TTLCache(maxsize=1, ttl=60)#*60*24)
+cache = TTLCache(maxsize=1, ttl=60*60*24)
 
 @app.route('/slack_event', methods=['POST'])
 def slack_event():
