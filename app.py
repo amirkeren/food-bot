@@ -98,7 +98,7 @@ def slack_event():
     return ''
 
 @app.route('/slack_options', methods=['POST'])
-def slack_action():
+def slack_options():
   return {
     "options": [
         {
