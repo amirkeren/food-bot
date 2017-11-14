@@ -96,7 +96,7 @@ def slack_options():
     restaurants = get_dataframe()['restaurant'].values
     restaurants_json = []
     for restaurant in restaurants:
-      restaurants_json.append({ 'text': restaurant, 'value': restaurant.encode(encoding='utf-8') })
+      restaurants_json.append({ 'text': restaurant, 'value': restaurant.decode(encoding='utf-8') })
     print(restaurants_json)
     return jsonify({ 'options': restaurants_json })
 
