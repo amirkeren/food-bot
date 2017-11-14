@@ -28,7 +28,6 @@ def slack_event():
       print('Challenge')
       return req.get('challenge')
     event = req.get('event')
-    print('Event is - ' + json.dumps(event))
     if not event.get('bot_id') and 'text' in event:
       print('Generate interactive message')
       attachments = [
