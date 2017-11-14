@@ -78,11 +78,11 @@ def slack_event():
               "value": "first_half"
             },
             {
-              "name": "bugs_list",
-              "text": "Which random bug do you want to resolve?",
+              "name": "restaurants_list",
+              "text": "Select a restaurant to get the average delivery time",
               "type": "select",
               "data_source": "external",
-              "min_query_length": 3,
+              "min_query_length": 2,
             }
           ]
         }
@@ -99,7 +99,7 @@ def slack_event():
 
 @app.route('/slack_options', methods=['POST'])
 def slack_options():
-    return {
+    options_json = {
       "options": [
         {
             "text": "Unexpected sentience",
@@ -115,6 +115,7 @@ def slack_options():
         }
       ]
     }
+    return json.dumps(options_json)
 
 @app.route('/slack_action', methods=['POST'])
 def slack_action():
