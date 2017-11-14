@@ -73,8 +73,7 @@ def slack_event():
               "name": "foodbot",
               "text": "Select a restaurant to get the average delivery time",
               "type": "select",
-              "data_source": "external",
-              "min_query_length": 2
+              "data_source": "external"
             }
           ]
         }
