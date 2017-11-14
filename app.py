@@ -15,20 +15,6 @@ BOT_ACCESS_TOKEN = os.environ.get('BOT_ACCESS_TOKEN')
 OAUTH_ACCESS_TOKEN = os.environ.get('OAUTH_ACCESS_TOKEN')
 VERIFICATION_TOKEN = os.environ.get('VERIFICATION_TOKEN')
 
-def get_messages(count, oldest):
-  query_slack_client = SlackClient(OAUTH_ACCESS_TOKEN)
-  print('Fetching a max of ' + str(count) + ' messages since ' + str(oldest))
-  history = query_slack_client.api_call(
-    'channels.history',
-    channel='C37ELNXTK',
-    oldest=oldest,
-    count=count
-  )
-  if 'messages' not in history:
-    print('Failed to read messages from channel')
-    return []
-  return history['messages']
-
 slack_client = SlackClient(BOT_ACCESS_TOKEN)
 cache = TTLCache(maxsize=1, ttl=60*60*24)
 
@@ -165,6 +151,20 @@ def get_results_from_selection(selection):
   elif selection == 'second_half':
     return get_restaurants_by_average_time(dataframe=grouped_dataframe, start_hour='12:30', end_hour='14:00')
   return ''
+
+def get_messages(count, oldest):
+  query_slack_client = SlackClient(OAUTH_ACCESS_TOKEN)
+  print('Fetching a max of ' + str(count) + ' messages since ' + str(oldest))
+  history = query_slack_client.api_call(
+    'channels.history',
+    channel='C37ELNXTK',
+    oldest=oldest,
+    count=count
+  )
+  if 'messages' not in history:
+    print('Failed to read messages from channel')
+    return []
+  return history['messages']
 
 if __name__ == '__main__':
   print('Starting app')
