@@ -122,7 +122,7 @@ def debug():
   return 'debug'
 
 @app.route('/oauth', methods=['GET'])
-def debug():
+def oauth():
   print('oauth endpoint triggered')
   print('Code is - ' + request.args.get('code'))
   return 'oauth'
