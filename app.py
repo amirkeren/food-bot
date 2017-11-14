@@ -99,25 +99,11 @@ def slack_event():
 
 @app.route('/slack_options', methods=['POST'])
 def slack_options():
-    grouped_dataframe = get_dataframe()
-    print(grouped_dataframe['restaurant'].values)
-    options_json = {
-      "options": [
-        {
-            "text": "Unexpected sentience",
-            "value": "AI-2323"
-        },
-        {
-            "text": "Bot biased toward other bots",
-            "value": "SUPPORT-42"
-        },
-        {
-            "text": "Bot broke my toaster",
-            "value": "IOT-75"
-        }
-      ]
-    }
-    return jsonify(options_json)
+    restaurants = get_dataframe()['restaurant'].values
+    restaurants_json = []
+    for restaurant in restaurants:
+      restaurants_json.append({ 'text': restaurant, 'value': restaurant })
+    return jsonify({ 'options': restaurants_json })
 
 @app.route('/slack_action', methods=['POST'])
 def slack_action():
