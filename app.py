@@ -63,12 +63,12 @@ def slack_event():
               "type": "button",
               "value": "first_half"
             },
-            {
-              "name": "foodbot",
-              "text": "After 12:30",
-              "type": "button",
-              "value": "second_half"
-            },
+            # {
+            #   "name": "foodbot",
+            #   "text": "After 12:30",
+            #   "type": "button",
+            #   "value": "second_half"
+            # },
             {
               "name": "foodbot",
               "text": "Select a restaurant to get the average delivery time",
@@ -157,8 +157,10 @@ def get_results_from_selection(selection):
     return get_n_latest_restaurants(dataframe=grouped_dataframe)
   elif selection == 'first_half':
     return get_restaurants_by_average_time(dataframe=grouped_dataframe, start_hour='11:00', end_hour='12:30')
-  elif selection == 'second_half':
-    return get_restaurants_by_average_time(dataframe=grouped_dataframe, start_hour='12:30', end_hour='14:00')
+  # elif selection == 'second_half':
+  #   return get_restaurants_by_average_time(dataframe=grouped_dataframe, start_hour='12:30', end_hour='14:00')
+  else:
+    print(selection)
   return ''
 
 def get_messages(count, oldest):
