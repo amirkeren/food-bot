@@ -96,4 +96,4 @@ def get_average_time_for_restaurant(dataframe, restaurant):
     result = dataframe.loc[dataframe['restaurant'] == restaurant]['mean_hour']
     if result.size == 0:
         return ''
-    return str(result.dt.strftime('%H:%M').values[0])
+    return restaurant + ' - ' + str(result.dt.strftime('%H:%M').values[0])
