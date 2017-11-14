@@ -90,11 +90,11 @@ def slack_event():
 
 @app.route('/slack_options', methods=['POST'])
 def slack_options():
-    value = json.loads(request.form['payload']).get('value')
+    filter = json.loads(request.form['payload']).get('value')
     restaurants = get_dataframe()['restaurant'].values
     restaurants_json = []
     for restaurant in restaurants:
-      if restaurant.startswith(value):
+      if restaurant.startswith(filter):
         restaurants_json.append({ 'text': restaurant, 'value': restaurant })
     return jsonify({ 'options': restaurants_json })
 
