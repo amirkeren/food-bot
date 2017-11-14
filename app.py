@@ -77,11 +77,7 @@ def slack_event():
                 {
                   "text": "12:45 - 13:00",
                   "value": "time-12:45-13:00"
-                },
-                {
-                  "text": "After 13:00",
-                  "value": "time-13:00-16:00"
-                },
+                }
               ]
             },
             {
