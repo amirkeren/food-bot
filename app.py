@@ -100,13 +100,18 @@ def slack_event():
 
 @app.route('/slack_options', methods=['POST'])
 def slack_options():
-    filter = json.loads(request.form['payload']).get('value')
-    restaurants = get_dataframe()['restaurant'].values
-    restaurants_json = []
-    for restaurant in restaurants:
-      if restaurant.startswith(filter):
-        restaurants_json.append({ 'text': restaurant, 'value': restaurant })
-    return jsonify({ 'options': restaurants_json })
+    form_json = json.loads(request.form['payload'])
+    if form_json.get('token') == VERIFICATION_TOKEN:
+      print('Token verified')
+      filter = form_json.get('value')
+      restaurants = get_dataframe()['restaurant'].values
+      restaurants_json = []
+      for restaurant in restaurants:
+        if restaurant.startswith(filter):
+          restaurants_json.append({ 'text': restaurant, 'value': restaurant })
+      return jsonify({ 'options': restaurants_json })
+    print('Token not verified')
+    return ''
 
 @app.route('/slack_action', methods=['POST'])
 def slack_action():
@@ -129,6 +134,8 @@ def slack_action():
       attachments=[]
     )
     print('Channel updated')
+  else:
+    print('Token not verified')
   return ''
 
 def read_from_channel(count=1000, days_back=90):
