@@ -13,6 +13,8 @@ app = Flask(__name__)
 
 VERIFICATION_TOKEN = os.environ.get('VERIFICATION_TOKEN')
 ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN')
+CLIENT_ID = os.environ.get('CLIENT_ID')
+CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 
 def get_messages(slack_client, count, oldest):
   print('Fetching a max of ' + str(count) + ' messages since ' + str(oldest))
@@ -88,7 +90,6 @@ def slack_event():
       slack_client.api_call(
         'chat.postMessage',
         channel=event.get('channel'),
-        as_user='false',
         text='',
         attachments=json.dumps(attachments)
       )
@@ -108,7 +109,6 @@ def slack_action():
     slack_client.api_call(
       'chat.update',
       channel=channel,
-      as_user='false',
       ts=form_json.get('message_ts'),
       text=get_results_from_selection(selection=selection),
       attachments=[]
@@ -124,7 +124,13 @@ def debug():
 @app.route('/oauth', methods=['GET'])
 def oauth():
   print('oauth endpoint triggered')
-  print('Code is - ' + request.args.get('code'))
+  token_response = slack_client.api_call(
+    'oauth.access',
+    client_id=CLIENT_ID,
+    client_secret=CLIENT_SECRET,
+    code=request.args.get('code')
+  )
+  print('Access token is - ' + token_response['access_token'])
   return 'oauth'
 
 def read_from_channel(count=1000, days_back=90):
