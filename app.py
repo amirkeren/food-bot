@@ -99,6 +99,8 @@ def slack_event():
 
 @app.route('/slack_options', methods=['POST'])
 def slack_options():
+    grouped_dataframe = get_dataframe()
+    print(grouped_dataframe['restaurant'].values)
     options_json = {
       "options": [
         {
