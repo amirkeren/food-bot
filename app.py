@@ -160,18 +160,21 @@ def get_dataframe():
 
 def get_results_from_selection(selection):
   grouped_dataframe = get_dataframe()
+  result = None
   if selection == 'popular':
-    return get_n_most_popular_restaurants(dataframe=grouped_dataframe)
+    result = get_n_most_popular_restaurants(dataframe=grouped_dataframe)
   elif selection == 'earliest':
-    return get_n_earliest_restaurants(dataframe=grouped_dataframe)
+    result = get_n_earliest_restaurants(dataframe=grouped_dataframe)
   elif selection == 'latest':
-    return get_n_latest_restaurants(dataframe=grouped_dataframe)
+    result = get_n_latest_restaurants(dataframe=grouped_dataframe)
   elif 'time' in selection:
-    return get_restaurants_by_average_time(dataframe=grouped_dataframe, start_hour=selection.split('-')[1],
-                                           end_hour=selection.split('-')[2])
+    result = get_restaurants_by_average_time(dataframe=grouped_dataframe, start_hour=selection.split('-')[1],
+                                             end_hour=selection.split('-')[2])
   else:
-    return get_average_time_for_restaurant(dataframe=grouped_dataframe, restaurant=selection)
-  return ''
+    result = get_average_time_for_restaurant(dataframe=grouped_dataframe, restaurant=selection)
+  if len(result) == 0:
+    result = 'No results'
+  return result
 
 def get_messages(count, oldest):
   query_slack_client = SlackClient(OAUTH_ACCESS_TOKEN)
