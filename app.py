@@ -96,6 +96,8 @@ def slack_event():
         attachments=json.dumps(attachments)
       )
       print('Message posted')
+    else:
+      print('Token not verified')
     return ''
 
 @app.route('/slack_options', methods=['POST'])
