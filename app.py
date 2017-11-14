@@ -3,7 +3,7 @@ from slackclient import SlackClient
 from cachetools import TTLCache
 from datetime import datetime, timedelta
 
-from logic import create_dataframe, process_dataframe, get_restaurants_by_average_time, get_n_most_popular_restaurants, \
+from logic import create_dataframe, process_dataframe, get_restaurants_by_average_time, get_n_most_popular_restaurants,\
   get_n_earliest_restaurants, get_n_latest_restaurants, get_average_time_for_restaurant
 
 import os
@@ -63,17 +63,25 @@ def slack_event():
               "type": "select",
               "options": [
                 {
-                  "text": "12:00 - 12:30",
-                  "value": "12:00 - 12:30"
+                  "text": "12:00 - 12:15",
+                  "value": "time-12:00-12:15"
                 },
                 {
-                  "text": "12:30 - 13:00",
-                  "value": "12:30 - 13:00"
+                  "text": "12:15 - 12:30",
+                  "value": "time-12:15-12:30"
+                },
+                {
+                  "text": "12:30 - 12:45",
+                  "value": "time-12:30-12:45"
+                },
+                {
+                  "text": "12:45 - 13:00",
+                  "value": "time-12:45-13:00"
                 },
                 {
                   "text": "After 13:00",
-                  "value": "After 13:00"
-                }
+                  "value": "time-13:00-16:00"
+                },
               ]
             },
             {
@@ -158,10 +166,9 @@ def get_results_from_selection(selection):
     return get_n_earliest_restaurants(dataframe=grouped_dataframe)
   elif selection == 'latest':
     return get_n_latest_restaurants(dataframe=grouped_dataframe)
-  elif selection == 'first_half':
-    return get_restaurants_by_average_time(dataframe=grouped_dataframe, start_hour='11:00', end_hour='12:30')
-  # elif selection == 'second_half':
-  #   return get_restaurants_by_average_time(dataframe=grouped_dataframe, start_hour='12:30', end_hour='14:00')
+  elif 'time' in selection:
+    return get_restaurants_by_average_time(dataframe=grouped_dataframe, start_hour=selection.split('-')[1],
+                                           end_hour=selection.split('-')[2])
   else:
     return get_average_time_for_restaurant(dataframe=grouped_dataframe, restaurant=selection)
   return ''
