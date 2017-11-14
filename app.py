@@ -112,7 +112,8 @@ def slack_options():
         if restaurant.startswith(filter):
           restaurants_json.append({ 'text': restaurant, 'value': restaurant })
       return jsonify({ 'options': restaurants_json })
-    print('Token not verified')
+    else:
+      print('Token not verified')
     return ''
 
 @app.route('/slack_action', methods=['POST'])
