@@ -160,7 +160,7 @@ def get_results_from_selection(selection):
   # elif selection == 'second_half':
   #   return get_restaurants_by_average_time(dataframe=grouped_dataframe, start_hour='12:30', end_hour='14:00')
   else:
-    print(selection)
+    return get_average_time_for_restaurant(dataframe=grouped_dataframe, restaurant=selection)
   return ''
 
 def get_messages(count, oldest):
