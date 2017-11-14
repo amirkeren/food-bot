@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from slackclient import SlackClient
 from cachetools import TTLCache
 from datetime import datetime, timedelta
@@ -115,7 +115,7 @@ def slack_options():
         }
       ]
     }
-    return json.dumps(options_json)
+    return jsonify(options_json)
 
 @app.route('/slack_action', methods=['POST'])
 def slack_action():
