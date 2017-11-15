@@ -23,7 +23,7 @@ def slack_event():
   print('slack_event endpoint triggered')
   req = json.loads(request.data)
   if req.get('token') == VERIFICATION_TOKEN:
-    print('Token verified')
+    print('Token verified - ' + req.get('token'))
     if 'challenge' in req:
       print('Challenge')
       return req.get('challenge')
@@ -102,7 +102,7 @@ def slack_event():
 def slack_options():
     form_json = json.loads(request.form['payload'])
     if form_json.get('token') == VERIFICATION_TOKEN:
-      print('Token verified')
+      print('Token verified - ' + form_json.get('token'))
       filter = form_json.get('value')
       restaurants = get_dataframe()['restaurant'].values
       restaurants_json = []
@@ -111,7 +111,7 @@ def slack_options():
           restaurants_json.append({ 'text': restaurant, 'value': restaurant })
       return jsonify({ 'options': restaurants_json })
     else:
-      print('Token not verified - ' + json.dumps(form_json))
+      print('Token not verified - ' + form_json.get('value'))
     return ''
 
 @app.route('/slack_action', methods=['POST'])
@@ -119,7 +119,7 @@ def slack_action():
   print('slack_action endpoint triggered')
   form_json = json.loads(request.form['payload'])
   if form_json.get('token') == VERIFICATION_TOKEN:
-    print('Token verified')
+    print('Token verified - ' + form_json.get('token'))
     selection = form_json.get('actions')[0]
     if 'selected_options' in selection:
       selection = selection.get('selected_options')[0]
