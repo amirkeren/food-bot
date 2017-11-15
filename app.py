@@ -97,7 +97,7 @@ def slack_event():
       )
       print('Message posted')
     else:
-      print('Token not verified')
+      print('Token not verified - ' + json.dumps(req))
     return ''
 
 @app.route('/slack_options', methods=['POST'])
@@ -113,7 +113,7 @@ def slack_options():
           restaurants_json.append({ 'text': restaurant, 'value': restaurant })
       return jsonify({ 'options': restaurants_json })
     else:
-      print('Token not verified')
+      print('Token not verified - ' + json.dumps(form_json))
     return ''
 
 @app.route('/slack_action', methods=['POST'])
@@ -138,7 +138,7 @@ def slack_action():
     )
     print('Channel updated')
   else:
-    print('Token not verified')
+    print('Token not verified - ' + json.dumps(form_json))
   return ''
 
 def read_from_channel(count=1000, days_back=90):
