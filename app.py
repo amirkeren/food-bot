@@ -96,6 +96,7 @@ def slack_event():
         attachments=json.dumps(attachments)
       )
       print('Message posted')
+      return ''
     else:
       print('Token not verified - ' + json.dumps(req))
     return ''
