@@ -139,6 +139,11 @@ def slack_action():
     print('Token not verified - ' + json.dumps(form_json))
   return ''
 
+@app.route('/debug', methods=['GET'])
+def debug():
+  print('debug')
+  return 'debug'
+
 def read_from_channel(count=1000, days_back=90):
   now = datetime.now()
   then = now - timedelta(days=days_back)
