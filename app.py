@@ -156,7 +156,6 @@ def read_from_channel(count=1000, days_back=90):
   return grouped_dataframe
 
 def get_dataframe():
-  messages = None
   try:
     messages = cache['messages']
     print(str(len(messages)) + ' messages in cache')
@@ -168,7 +167,6 @@ def get_dataframe():
 
 def get_results_from_selection(selection):
   grouped_dataframe = get_dataframe()
-  result = None
   if selection == 'popular':
     result = get_n_most_popular_restaurants(dataframe=grouped_dataframe)
   elif selection == 'earliest':
