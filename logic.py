@@ -3,7 +3,7 @@ from datetime import datetime as dt
 import pandas as pd
 import time as tm
 
-TIME_ZONE = 'Asia/Tbilisi'
+TIME_ZONE = 'Asia/Jerusalem'
 
 def accept_message(message):
     to_filter = ['has joined the channel', 'uploaded a file', '?', '#', '@', '(', ')']
